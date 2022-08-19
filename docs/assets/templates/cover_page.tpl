@@ -1,6 +1,6 @@
 <img src="/assets/img/cover_page.png" />
 <div>
-<h1 style="text-align: right;">VMware SASE for the Enterprise</h2>
+<h1 style="text-align: right;">Multi-Cloud</h2>
 <h2 style="text-align: right;">Refrence Architecture</h3>
 </div>
 
