@@ -1,6 +1,6 @@
 # Multi-Cloud Reference Architecture Documentation
 
-## Building locally
+## Building locally -
 
 To work locally with this project, you'll have to follow the steps below:
 
