@@ -1,0 +1,32 @@
+image: python:3.9.12-buster
+
+before_script:
+  - pip install --upgrade pip && pip install -r requirements.txt
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - mkdocs build
+    - mv site public
+  artifacts:
+    paths:
+      - public
+
+deploy:
+  stage: deploy
+  image: alpine:3.15
+  before_script:
+    - apk add --upadte --no-cache rsync
+    - apk add -qU openssh
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - echo ${SSH_PRIVATE_KEY} | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -t rsa ${DO_HOST} >> ~/.ssh/known_hosts
+  script:
+    - rsync -az --delete public/ ${DO_USER}@${DO_HOST}:${DO_PATH}
+  only:
+    - main
