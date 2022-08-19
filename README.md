@@ -1,4 +1,4 @@
-# SASE Reference Architecture Documentation
+# Multi-Cloud Reference Architecture Documentation
 
 ## Building locally
 
@@ -11,7 +11,7 @@ To work locally with this project, you'll have to follow the steps below:
 
 ## Syncing with this repo ( if needed)
 ```
- git remote add upstream git@gitlab.eng.vmware.com:sa-field-group/sase-ref-arch-mkdocs.git
+ git remote add upstream git@gitlab.eng.vmware.com:sa-field-group/multicloud-ref-arch-mkdocs.git
 ```
 
 # Fetch all the branches of that remote into remote-tracking branches
@@ -22,11 +22,11 @@ git fetch upstream
 
 Make sure that you're on your master branch:
 ```
-git checkout main
+git checkout master
 ```
 Rewrite your master branch so that any commits of yours that
 ```
-git rebase upstream/main
+git rebase upstream/master
 git push  
 ```
 
