@@ -1,0 +1,27 @@
+site_name: Multi-Cloud Refrence Architecture
+theme:
+  features:
+    - toc.integrate
+    - navigation.tabs
+    - navigation.expand
+    - toc.follow
+  name: material
+  custom_dir: docs/overrides
+
+plugins:
+    - search
+    # - with-pdf
+    - print-site:
+        add_cover_page: true
+        cover_page_template: "docs/assets/templates/cover_page.tpl"
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - meta
+  - toc:
+      permalink: True

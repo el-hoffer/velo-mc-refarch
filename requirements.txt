@@ -1,0 +1,4 @@
+mkdocs-material
+mkdocs-with-pdf
+weasyprint==52.5
+mkdocs-print-site-plugin
