@@ -27,6 +27,6 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -t rsa ${DO_HOST} >> ~/.ssh/known_hosts
   script:
-    - rsync -az --delete public/ ${DO_USER}@$fasfasf:${DO_PATH}
+    - rsync -az --delete public/ ${DO_USER}@${DO_HOST}:${DO_PATH}
   only:
     - main
