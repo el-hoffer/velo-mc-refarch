@@ -1,8 +1,6 @@
 ---
-title: Overview/Design Constants
+title: Design Constants
 ---
-
-#	Document overview
 
 #	Design constants
 
