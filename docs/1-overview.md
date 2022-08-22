@@ -2,12 +2,12 @@
 title: Overview/Design Constants
 ---
 
-##	Document overview
+#	Document overview
 
-##	Design constants
+#	Design constants
 
-###	HA/Clustering support
-### Throughput/prefix limitations
-### Multi-VPC/VNET connectivity constructs
-### Dedicated private connectivity
-### Multi-region interconnectivity guidance
+##	HA/Clustering support
+## Throughput/prefix limitations
+## Multi-VPC/VNET connectivity constructs
+## Dedicated private connectivity
+## Multi-region interconnectivity guidance
