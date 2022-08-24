@@ -48,6 +48,6 @@ In this model workloads across all regions/subnets that are part of the workload
 ## Google Cloud VMware Engine (GCVE)
 [GCVE](https://cloud.google.com/vmware-engine/docs) is a managed service offered by Google which, similar to VMC and AVS, utilizes VM networking based on NSX.  As such, integrating SDWAN connectivity is not a simple matter of deploying a virtual edge(es) directly into the GCVE workload domain (since the NSX Tier 1 routers that are L3 adjacent to workloads do not exchange routing information with anything other than NSX Tier 0 routers).  This being the case, connectivity options for GCVE with VMware SDWAN fall into one of the following two categories:
 
-### NSD via edge or GW to NSX 
+### NSD via edge or GW
 
 ### Virtual edges deployed to a customer owned VPC
