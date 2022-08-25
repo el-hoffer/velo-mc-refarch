@@ -49,5 +49,8 @@ In this model workloads across all regions/subnets that are part of the workload
 [GCVE](https://cloud.google.com/vmware-engine/docs) is a managed service offered by Google which, similar to VMC and AVS, utilizes VM networking based on NSX.  As such, integrating SDWAN connectivity is not a simple matter of deploying a virtual edge(es) directly into the GCVE workload domain (since the NSX Tier 1 routers that are L3 adjacent to workloads do not exchange routing information with anything other than NSX Tier 0 routers).  This being the case, connectivity options for GCVE with VMware SDWAN fall into one of the following two categories:
 
 ### NSD via edge or GW
+Leveraging an NSD via edge or GW to GCP's Cloud VPN gateway(s) provides an easy way to connect to the VPC that houses a GCVE private cloud and/or .  It is recommended to leverage the "Generic IKEv2 Router Based" NSD templates (though GCP also supports IKEv1) as BGP over IPSec is required.  This also creates a dependency on running 4.3.1 on the VCE/VCG that the NSD is built from.  
+
+As with other VMware cloud offerings that leverage NSX, it is important to note that the 169.254.0.0/28 and 100.64.0.0/10 subnets are utilized for communications amongst SR/DR as well as T1 and T0 routing constructs so the use of addresses in those ranges elsewhere in the enterprise should be avoided to prevent routing conflicts.  This is particularly pertinent when creating Cloud VPN connections and associated BGP peering as GCP requires the use of link local address space (169.254.0.0/16) for internal tunnel/BGP neighbor IPs so care must be taken to avoid using addresses in the 169.254.0.0/28 (169.254.0.0-169.254.0.15) space.
 
 ### Virtual edges deployed to a customer owned VPC
