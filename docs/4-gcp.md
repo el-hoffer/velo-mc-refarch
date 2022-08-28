@@ -62,10 +62,11 @@ For regions with a single private cloud, the GCP Cloud VPN can be configured dir
   ![Image title](/images/gcp/single-gcve.png){ width="800" }
   <figcaption></figcaption>
 </figure>
-In deployments with either multiple GCVE private clouds, or, a combination of GCVE along with native GCP workloads, GCP Cloud VPN can also be configured in a transit VPC and leverage GCP private services access and/or VPC peering.
+In deployments with either multiple GCVE private clouds, or, a combination of GCVE along with native GCP workloads, GCP Cloud VPN can also be configured in a transit VPC and leverage [GCP private services access](https://cloud.google.com/vpc/docs/configure-private-services-access#creating-connection) for connectivity to the GCVE VPC(s) and VPC peering with associated native GCP workload VPCs.
 <figure markdown>
   ![Image title](/images/gcp/multi-gcve.png){ width="800" }
   <figcaption></figcaption>
 </figure>
 
 ### Virtual edges deployed to a customer owned VPC
+When additional throughput/tunnel scale is required beyond what can be supported via the NSD options, and/or when end to end DMPO is desired, virtual edges can be deployed into a transit VPC that connects via GCP private servicess access to the GCVE VPC(s).
