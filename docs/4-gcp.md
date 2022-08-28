@@ -62,7 +62,7 @@ For regions with a single private cloud, the GCP Cloud VPN can be configured dir
   ![Image title](/images/gcp/single-gcve.png){ width="800" }
   <figcaption></figcaption>
 </figure>
-In deployments with either multiple GCVE private clouds, or, a combination of GCVE along with native GCP workloads, GCP Cloud VPN can also be configured in a transit VPC and leverage VPC peering as described in the "Basic Concepts" section.
+In deployments with either multiple GCVE private clouds, or, a combination of GCVE along with native GCP workloads, GCP Cloud VPN can also be configured in a transit VPC and leverage GCP private services access and/or VPC peering.
 <figure markdown>
   ![Image title](/images/gcp/multi-gcve.png){ width="800" }
   <figcaption></figcaption>
