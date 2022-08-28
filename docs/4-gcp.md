@@ -53,4 +53,19 @@ Leveraging an NSD via edge or GW to GCP's Cloud VPN gateway(s) provides an easy 
 
 As with other VMware cloud offerings that leverage NSX, it is important to note that the 169.254.0.0/28 and 100.64.0.0/10 subnets are utilized for communications amongst SR/DR as well as T1 and T0 routing constructs so the use of addresses in those ranges elsewhere in the enterprise should be avoided to prevent routing conflicts.  This is particularly pertinent when creating Cloud VPN connections and associated BGP peering as GCP requires the use of link local address space (169.254.0.0/16) for internal tunnel/BGP neighbor IPs so care must be taken to avoid using addresses in the 169.254.0.0/28 (169.254.0.0-169.254.0.15) space.
 
+NSD's via edge should leverage redundant VPN tunnels to GCP Cloud VPN gateways from all internet facing interfaces.  In the GCP Cloud VPN configuration, select the "Create a pair of VPN Tunnels" High Availability configuration as depicted in the single private cloud diagram below.
+
+For NSD via gateway, check the "Redundant VeloCloud Cloud VPN" option to enable maximum resiliency by creating dual redunant tunnels from both a primary and secondary cloud gateway, resulting in a total of 4 tunnels as depicted in the multiple private cloud/multiple VPC option below.
+
+For regions with a single private cloud, the GCP Cloud VPN can be configured directly in the VPC that houses the GCVE Private Cloud as pictured below.
+<figure markdown>
+  ![Image title](/images/gcp/single-gcve.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
+In deployments with either multiple GCVE private clouds, or, a combination of GCVE along with native GCP workloads, GCP Cloud VPN can also be configured in a transit VPC and leverage VPC peering as described in the "Basic Concepts" section.
+<figure markdown>
+  ![Image title](/images/gcp/multi-gcve.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
+
 ### Virtual edges deployed to a customer owned VPC
