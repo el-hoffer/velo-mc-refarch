@@ -38,10 +38,14 @@ Despite the need for only a single workload VPC in this scenario, an edge deploy
   ![Image title](/images/gcp/single-region-single-vpc.png){ width="800" }
   <figcaption></figcaption>
 </figure>
-In this model workloads across all regions/subnets that are part of the workload VPC can be routed via the edge.  To establish overlay reachability, the LAN side subnet in which GE3 resides can be advertised as a connected route.  For all other subnets (either discrete subnets local to the region in the VPC or subnets in other regions) static routes and/or peering with a Cloud Router via the NCC hub are required.
+In this model workloads across all regions/subnets that are part of the workload VPC can be routed via the edge.  To establish overlay reachability, the LAN side subnet in which GE3 resides can be advertised as a connected route.  For all other subnets (either discrete subnets local to the region in the VPC or subnets in other regions) static routes and/or peering with a Google Cloud Router via the NCC hub are required.
 
 ## Single Region, Single VPC- NSD
+NSD connctivity options for designs with a single workload VPC will leverage Google's Cloud VPN service to provide multiple redundant tunnels for connectivity directly into the workload VPC.  In all cases, Google and VMware best practices dictate leveraging BGP over IPsec to exchange routes with a Google Cloud Router as well as provide an extra layer of resiliency for tunnel failover.
 
+Both options below leverage the [general Cloud VPN configuration process](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn) with slightly different configurations.  On the VMware side, both will use the "Generic IKEv2 Router" NSD type. 
+
+For NSD via edge scenarios, leverage the "Generic IKEv2 Router" NSD type
 
 ## Single Region, Multi-VPC
 
@@ -53,7 +57,7 @@ In this model workloads across all regions/subnets that are part of the workload
 [GCVE](https://cloud.google.com/vmware-engine/docs) is a managed service offered by Google which, similar to VMC and AVS, utilizes VM networking based on NSX.  As such, integrating SDWAN connectivity is not a simple matter of deploying a virtual edge(es) directly into the GCVE workload domain (since the NSX Tier 1 routers that are L3 adjacent to workloads do not exchange routing information with anything other than NSX Tier 0 routers).  This being the case, connectivity options for GCVE with VMware SDWAN fall into one of the following two categories:
 
 ### NSD via edge or GW
-Leveraging an NSD via edge or GW to GCP's Cloud VPN gateway(s) provides an easy way to connect to the VPC that houses a GCVE private cloud and/or .  It is recommended to leverage the "Generic IKEv2 Router Based" NSD templates (though GCP also supports IKEv1) as BGP over IPSec is required.  This also creates a dependency on running 4.3.1 on the VCE/VCG that the NSD is built from.  
+Leveraging an NSD via edge or GW to GCP's Cloud VPN gateway(s) provides an easy way to connect to the VPC that houses a GCVE private cloud and/or .  It is recommended to leverage the "Generic IKEv2 Router Based" NSD templates (though GCP also supports IKEv1) as BGP over IPSec is a best practice advised by both Google and VMware.  This also creates a dependency on running 4.3.1 on the VCE/VCG that the NSD is built from.  
 
 As with other VMware cloud offerings that leverage NSX, it is important to note that the 169.254.0.0/28 and 100.64.0.0/10 subnets are utilized for communications amongst SR/DR as well as T1 and T0 routing constructs so the use of addresses in those ranges elsewhere in the enterprise should be avoided to prevent routing conflicts.  This is particularly pertinent when creating Cloud VPN connections and associated BGP peering as GCP requires the use of link local address space (169.254.0.0/16) for internal tunnel/BGP neighbor IPs so care must be taken to avoid using addresses in the 169.254.0.0/28 (169.254.0.0-169.254.0.15) space.
 
