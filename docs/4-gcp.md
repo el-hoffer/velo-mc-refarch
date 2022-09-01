@@ -70,3 +70,11 @@ In deployments with either multiple GCVE private clouds, or, a combination of GC
 
 ### Virtual edges deployed to a customer owned VPC
 When additional throughput/tunnel scale is required beyond what can be supported via the NSD options, and/or when end to end DMPO is desired, virtual edges can be deployed into a transit VPC that connects via GCP private servicess access to the GCVE VPC(s).
+
+Similar to the Multi-VPC options previously noted, a single edge cluster can be deployed with LAN interfaces in a transit VPC to facilitate connectivity to the underlying GCVE VPCs.  The only difference in this model is that rather than traditional VPC peering, GCP private services access from the transit VPC is leveraged as depicted below.
+<figure markdown>
+  ![Image title](/images/gcp/multi-gcve-edge.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
+
+As with other designs, the use of NCC to peer edges with the Google Cloud Router and facilitate clustering for resiliency/additional throughput is recommended.
