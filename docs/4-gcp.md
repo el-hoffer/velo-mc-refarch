@@ -68,7 +68,12 @@ For virtual VCEs running in GCP, the LAN interface will reside in a transit VPC 
 </figure>
 
 Similarly, in NSD based deployments the Google Cloud VPN gateway will be associated with a transit VPC peered with multiple workload VPCs.
+<figure markdown>
+  ![Image title](/images/gcp/multi-native-nsd.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
 
+In either case, take care to read/understand the VPC peering portion of the basic concepts section above to see how routes can be both populated to VPC routing tables as well as learned by the Cloud Router.
 
 ## Multi-Region, Multi-VPC
 
