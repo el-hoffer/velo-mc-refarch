@@ -41,14 +41,25 @@ Despite the need for only a single workload VPC in this scenario, an edge deploy
 In this model workloads across all regions/subnets that are part of the workload VPC can be routed via the edge.  To establish overlay reachability, the LAN side subnet in which GE3 resides can be advertised as a connected route.  For all other subnets (either discrete subnets local to the region in the VPC or subnets in other regions) static routes and/or peering with a Google Cloud Router via the NCC hub are required.
 
 ## Single Region, Single VPC- NSD
-NSD connctivity options for designs with a single workload VPC will leverage Google's Cloud VPN service to provide multiple redundant tunnels for connectivity directly into the workload VPC.  In all cases, Google and VMware best practices dictate leveraging BGP over IPsec to exchange routes with a Google Cloud Router as well as provide an extra layer of resiliency for tunnel failover.
+NSD connectivity options for designs with a single workload VPC will leverage Google's Cloud VPN service to provide multiple redundant tunnels for connectivity directly into the workload VPC.  In all cases, Google and VMware best practices dictate leveraging BGP over IPsec to exchange routes with a Google Cloud Router as well as provide an extra layer of resiliency for tunnel failover.
 
 Both options below leverage the [general Cloud VPN configuration process](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn) with slightly different configurations.  On the VMware side, both will use the "Generic IKEv2 Router" NSD type. 
 
-For NSD via edge scenarios, leverage the "Generic IKEv2 Router" NSD type
+For NSD via edge scenarios, leverage the "Generic IKEv2 Router" NSD type with the secondary VPN gateway option enabled to enable redundant VPN tunnels to the Google Cloud VPN gateways as shown.
+<figure markdown>
+  ![Image title](/images/gcp/nsd-single.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
+
+With NSD via gateway, maximum resiliency is realized by leveraging both primary and secondary Google Cloud VPN gateways, as well as selecting the "Redundant VeloCloud Cloud VPN" option in the NSD configuration to also build tunnels to GCP from a diverse VMware PoP, resulting in a total of four tunnels as shown.
+<figure markdown>
+  ![Image title](/images/gcp/nsdgw-single.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
+
 
 ## Single Region, Multi-VPC
-
+When there is an additional need to connect to multiple VPCs within a given region, virtual edge LAN interfaces or Google Cloud VPN gateways will reside in a transit VPC (which may or may not also contain other workloads) that will have VPC peering configured with workload VPCs as described in the basic concepts section.
 
 ## Multi-Region, Multi-VPC
 
