@@ -59,7 +59,16 @@ With NSD via gateway, maximum resiliency is realized by leveraging both primary 
 
 
 ## Single Region, Multi-VPC
-When there is an additional need to connect to multiple VPCs within a given region, virtual edge LAN interfaces or Google Cloud VPN gateways will reside in a transit VPC (which may or may not also contain other workloads) that will have VPC peering configured with workload VPCs as described in the basic concepts section.
+When there is an additional need to connect to multiple VPCs within a given region, VPC peering can be configured with workload VPCs as described in the basic concepts section.
+
+For virtual VCEs running in GCP, the LAN interface will reside in a transit VPC (which in some cases may also contain other workloads) that will peer with multiple  workload VPCs (up to 25 as of this writing with quotas published [here](https://cloud.google.com/vpc/docs/quota#vpc-peering)).
+<figure markdown>
+  ![Image title](/images/gcp/multi-native-edge.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
+
+Similarly, in NSD based deployments the Google Cloud VPN gateway will be associated with a transit VPC peered with multiple workload VPCs.
+
 
 ## Multi-Region, Multi-VPC
 
