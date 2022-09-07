@@ -8,7 +8,7 @@ theme:
   name: material
   custom_dir: docs/overrides
   logo: assets/img/vmw_logo_white.svg
-  favicon: assets/img/sase_logo.svg
+  favicon: assets/img/sase_logo.png
 
 plugins:
     - search
