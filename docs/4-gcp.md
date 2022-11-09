@@ -90,7 +90,7 @@ As with other VMware cloud offerings that leverage NSX, it is important to note 
 
 NSD's via edge should leverage redundant VPN tunnels to GCP Cloud VPN gateways from all internet facing interfaces.  In the GCP Cloud VPN configuration, select the "Create a pair of VPN Tunnels" High Availability configuration as depicted in the single private cloud diagram below.
 
-For NSD via gateway, check the "Redundant VeloCloud Cloud VPN" option to enable maximum resiliency by creating dual redunant tunnels from both a primary and secondary cloud gateway, resulting in a total of 4 tunnels as depicted in the multiple private cloud/multiple VPC option below.
+For NSD via gateway, check the "Redundant VeloCloud Cloud VPN" option to enable maximum resiliency by creating dual redundant tunnels from both a primary and secondary cloud gateway, resulting in a total of 4 tunnels as depicted in the multiple private cloud/multiple VPC option below.
 
 For regions with a single private cloud, the GCP Cloud VPN can be configured directly in the VPC that houses the GCVE Private Cloud as pictured below.
 <figure markdown>
@@ -104,7 +104,7 @@ In deployments with either multiple GCVE private clouds, or, a combination of GC
 </figure>
 
 ### Virtual edges deployed to a customer owned VPC
-When additional throughput/tunnel scale is required beyond what can be supported via the NSD options, and/or when end to end DMPO is desired, virtual edges can be deployed into a transit VPC that connects via GCP private servicess access to the GCVE VPC(s).
+When additional throughput/tunnel scale is required beyond what can be supported via the NSD options, and/or when end to end DMPO is desired, virtual edges can be deployed into a transit VPC that connects via GCP private services access to the GCVE VPC(s).
 
 Similar to the Multi-VPC options previously noted, a single edge cluster can be deployed with LAN interfaces in a transit VPC to facilitate connectivity to the underlying GCVE VPCs.  The only difference in this model is that rather than traditional VPC peering, GCP private services access from the transit VPC is leveraged as depicted below.
 <figure markdown>
