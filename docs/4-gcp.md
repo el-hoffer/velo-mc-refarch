@@ -78,7 +78,15 @@ In either case, take care to read/understand the VPC peering portion of the basi
 ## Multi-Region, Multi-VPC
 As mentioned in the Basic Concepts section of this page, the ability to connect to multiple regions via a single edge/cluster can be enabled by setting the "Dynamic Routing" setting for the VPC to "Global".  This by itself will only ensure that subnets from other regions within the Transit VPC are advertised from the Cloud Router, so the same steps to enable VPC peering and create the associated custom routes as described in the Basic Concepts section are still required as well.
 
-While many of the same constructs used in the Single Region, Multi-VPC design still apply, leveraging edges in a subset of the reachable workload regions requires additional consideration in order to ensure optimal routing from branch edges to the GCP workload, and similarly to ensure that return traffic takes the same path to avoid asymmetric routing.
+While many of the same constructs used in the Single Region, Multi-VPC design still apply, leveraging edges in a subset of the reachable workload regions requires additional consideration in order to ensure optimal routing from branch edges to the GCP workload, and similarly to ensure that return traffic takes the same path to avoid asymmetric routing.  
+
+Optimal routing is of course subjective, and may in some cases mean that the overlay (and associated performance benefits of DMPO) is leveraged to terminate on an edge that's as close to the destination workload region as possible and traverse the GCP backbone from there (which will also potentially provide transit cost savings) as depicted below:
+<fix this>
+
+In other cases the workload topology may prove too distributed to accomplish this without an undesirable amount of complexity/manual intervention (i.e. disparate route maps due to the fact that the GCP cloud routers will advertise workload VPC prefixes with identical BGP AS path length, metric, weight, etc. in all regions) dictating a design where all workload VPC bound traffic flow through the GCP based hub geographically closest to the branch, and traverse the GCP backbone from there (in some cases also avoid ISP peering performance issues) as depicted below:
+<fix this too>
+
+In either case, the use of hub ordering in the branch SDWAN edge profile will provide an optimal way to ensure that both ingress and egress traffic 
 
 ## Google Cloud VMware Engine (GCVE)
 [GCVE](https://cloud.google.com/vmware-engine/docs) is a managed service offered by Google which, similar to VMC and AVS, utilizes VM networking based on NSX.  As such, integrating SDWAN connectivity is not a simple matter of deploying a virtual edge(es) directly into the GCVE workload domain (since the NSX Tier 1 routers that are L3 adjacent to workloads do not exchange routing information with anything other than NSX Tier 0 routers).  This being the case, connectivity options for GCVE with VMware SDWAN fall into one of the following two categories:
