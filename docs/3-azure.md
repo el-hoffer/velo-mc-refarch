@@ -5,7 +5,7 @@ title: Microsoft Azure
 # Microsoft Azure
 
 ## Basic Concepts
-<u>[Virtual Network (VNet)](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)</u>-
+<u>[Virtual Network (VNet)](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)</u>-  An Azure vNET provides an isolated network segment in which workloads and auxiliary services can be deployed.  vNETs in Azure are a regional construct, and as such will require additional configuration (i.e. vNET peering, vWAN, etc.) to facilitate multi-region connectivity.  Similarly, subnets within a vNET are also a regional construct (though unlike AWS, are not isolated to a specific availability zone within a region).
 
 <u>[VNet Peering](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview)</u>- 
 
