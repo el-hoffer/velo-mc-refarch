@@ -9,10 +9,14 @@ title: Microsoft Azure
 
 <u>[VNet Peering](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview)</u>- 
 
-<u>Routing tables</u>-
+<u>Route tables</u>-
 There are two types of routing tables that may be applicable to Azure deployments:
 
-[Subnet Routing Tables](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview)
+[VNet/Custom Route Tables](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview) can be used to override or augment the default route table in a customer owned VNet (which by default just contains a default route and routes for the local VNet as well as any peered VNets) with static user-defined routes (UDRs).  Route tables can be applied to individual subnets within a VNet to provide differentiated routing (i.e. where workloads may need to route egress traffic to a virtual firewall which will in turn forward the traffic to an SDWAN edge).  It is important to note that UDRs will take precedence over any default VNet routes as well as routes dynamically learned routes (i.e. those advertised by an SDWAN edge to a Route Server) so when troubleshooting routing issues for Azure based workloads it can be helpful to navigate to the vnic of the virtual machine in question in the Azure portal and selecting "Effective Routes" as pictured:
+<figure markdown>
+  ![Image title](/images/azure/effective-routes.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
 
 [vWAN Hub Route Tables](https://learn.microsoft.com/en-us/azure/virtual-wan/about-virtual-hub-routing)
 
