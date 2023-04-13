@@ -7,8 +7,6 @@ title: Microsoft Azure
 ## Basic Concepts
 <u>[Virtual Network (VNet)](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)</u>-  An Azure vNET provides an isolated network segment in which workloads and auxiliary services can be deployed.  vNETs in Azure are a regional construct, and as such will require additional configuration (i.e. vNET peering, vWAN, etc.) to facilitate multi-region connectivity.  Similarly, subnets within a vNET are also a regional construct (though unlike AWS, are not isolated to a specific availability zone within a region).
 
-<u>[VNet Peering](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview)</u>- 
-
 <u>Route tables</u>-
 There are two types of routing tables that may be applicable to Azure deployments:
 
@@ -19,6 +17,8 @@ There are two types of routing tables that may be applicable to Azure deployment
 </figure>
 
 [vWAN Hub Route Tables](https://learn.microsoft.com/en-us/azure/virtual-wan/about-virtual-hub-routing)
+
+<u>[VNet Peering](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview)</u>-  VNet peering is a method of providing connectivity between two or more VNets to facilitate intercommunication.  Peered VNets can reside in a single region or span multiple regions, and in many cases (i.e. where traffic comes in via an SDWAN edge and must be routed through a virtual security appliance before being forwarded to the destination workload) traffic may traverse multiple VNets to reach its final destination.
 
 <u>[Azure Route Server](https://learn.microsoft.com/en-us/azure/route-server/overview)</u>- 
 
