@@ -20,7 +20,11 @@ There are two types of routing tables that may be applicable to Azure deployment
 
 <u>[VNet Peering](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview)</u>-  VNet peering is a method of providing connectivity between two or more VNets to facilitate intercommunication.  Peered VNets can reside in a single region or span multiple regions, and in many cases (i.e. where traffic comes in via an SDWAN edge and must be routed through a virtual security appliance before being forwarded to the destination workload) traffic may traverse multiple VNets to reach its final destination.
 
-When peering multiple workload and service VNets in a customer environment, Microsoft recommends a [hub and spoke architecture](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/hub-spoke?tabs=cli) where the SDWAN edge is deployed in a hub VNet (either in an actual vWAN hub or a customer owned VNet acting as a "hub" in the peering topology).  In cases where spoke VNets are peered to a vWAN hub, flow paths through applicable VNets can then be controlled via vWAN route tables that dictate routes to be learned by (associated to) a vWAN hub attachment, or through UDRs and/or dynamic routes inhereted through peering link settings (in cases where two customer owned VNets are peered).
+When peering multiple workload and service VNets in a customer environment, Microsoft recommends a [hub and spoke architecture](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/hub-spoke?tabs=cli) where the SDWAN edge is deployed in a hub VNet (either in an actual vWAN hub or a customer owned VNet acting as a "hub" in the peering topology).  In cases where spoke VNets are peered to a vWAN hub, flow paths through applicable VNets can then be controlled via vWAN route tables that dictate routes to be learned by (associated to) a vWAN hub attachment.  When customer owned VNets are peered, routing is controlled through UDRs and/or dynamic routes inhereted through peering link settings, which allow the selection of one VNet/route server from which to inherit dynamically learned routes (generally the hub VNet where the SDWAN edge will reside) as pictured below:
+<figure markdown>
+  ![Image title](/images/azure/peering-settings.png){ width="800" }
+  <figcaption></figcaption>
+</figure>
 
 <u>[Azure Route Server](https://learn.microsoft.com/en-us/azure/route-server/overview)</u>- 
 
