@@ -16,7 +16,7 @@ There are two types of routing tables that may be applicable to Azure deployment
   <figcaption></figcaption>
 </figure>
 
-[vWAN Hub Route Tables](https://learn.microsoft.com/en-us/azure/virtual-wan/about-virtual-hub-routing)
+[vWAN Hub Route Tables](https://learn.microsoft.com/en-us/azure/virtual-wan/about-virtual-hub-routing) are applicable to vWAN hub connections (e.g. NVAs, VNet Connections, Express Routes, etc.) and are not specific to a given VNet or peering connection.  As such provide a more flexible way to control which routes are associated to and propagated from a given connection as well as being more repeatable in the sense that a single route table can be applied to multiple connections.
 
 <u>[VNet Peering](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview)</u>-  VNet peering is a method of providing connectivity between two or more VNets to facilitate intercommunication.  Peered VNets can reside in a single region or span multiple regions, and in many cases (i.e. where traffic comes in via an SDWAN edge and must be routed through a virtual security appliance before being forwarded to the destination workload) traffic may traverse multiple VNets to reach its final destination.
 
