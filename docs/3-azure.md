@@ -30,7 +30,7 @@ In cases where spoke VNets are peered to a vWAN hub, flow paths through applicab
 
 When customer owned VNets are peered, routing is controlled through UDRs and/or dynamic routes inhereted through peering link settings, which allow the selection of one VNet/route server from which to inherit dynamically learned routes (generally the hub VNet where the SDWAN edge will reside) as shown below:
 <figure markdown>
-  ![Image title](/images/azure/peering-settings.png){ width="800" }
+  ![Image title](/docs/images/azure/peering-settings.png){ width="800" }
   <figcaption></figcaption>
 </figure>
 
