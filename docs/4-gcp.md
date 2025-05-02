@@ -22,10 +22,8 @@ Another unique aspect of VPCs within GCP is that Google Cloud Engine (GCE) VM in
 NCC leverages a hub and spoke nomenclature where an NCC hub is defined, and SDWAN edge peers are defined as spokes to the hub.  Architecturally, the NCC hub itself is just a logical management object wherein spokes (which in our case are the SDWAN edge VM instances) can be defined to configure the actual BGP sessions with the cloud router for a given region.  
 
 The Cloud Router itself peers with the edge VM instances in a given region to advertise GCP subnet routes, and also populates routes learned from edges into the underlying GCP routing tables.  It provides control plane functionality only and does not physically sit in the data plane.  While Cloud Routers are local to a given region within a VPC, they can optionally advertise VPC subnets from other regions to leverage the GCP backbone as transit.  This can be controlled at the VPC level by specifying the Dynamic Routing Mode as “Regional” (so that only routes local to the Cloud Router’s region will be advertised) or “Global” (so that routes from all regions will be advertised):  
-<figure markdown>
-  ![Image title](/images/gcp/routing-mode.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
+![image](https://github.com/user-attachments/assets/299c11b1-7239-49ea-b1b4-752347b169dc)
+
 As of this writing, the NCC hub only supports a single VPC, however, the VPC that the LAN side of the edge connects to can be peered with multiple other VPCs (up to 25 as of this writing per [GCP’s VPC quota](https://cloud.google.com/vpc/docs/quota#vpc-peering)) as well.  It is, however, important to note that while peered VPCs are reachable from a dataplane perspective as soon as the peering connection is created, since the Cloud Router exists in a specific VPC, “Custom Routes” must be configured in order for peer VPC routes to be advertised to the SDWAN Edge(s):
 <figure markdown>
   ![Image title](/images/gcp/custom-route.png){ width="800" }
