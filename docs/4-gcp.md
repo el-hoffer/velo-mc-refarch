@@ -23,19 +23,12 @@ NCC leverages a hub and spoke nomenclature where an NCC hub is defined, and SDWA
 
 The Cloud Router itself peers with the edge VM instances in a given region to advertise GCP subnet routes, and also populates routes learned from edges into the underlying GCP routing tables.  It provides control plane functionality only and does not physically sit in the data plane.  While Cloud Routers are local to a given region within a VPC, they can optionally advertise VPC subnets from other regions to leverage the GCP backbone as transit.  This can be controlled at the VPC level by specifying the Dynamic Routing Mode as “Regional” (so that only routes local to the Cloud Router’s region will be advertised) or “Global” (so that routes from all regions will be advertised):  
 ![image](https://github.com/user-attachments/assets/299c11b1-7239-49ea-b1b4-752347b169dc)
-
 As of this writing, the NCC hub only supports a single VPC, however, the VPC that the LAN side of the edge connects to can be peered with multiple other VPCs (up to 25 as of this writing per [GCP’s VPC quota](https://cloud.google.com/vpc/docs/quota#vpc-peering)) as well.  It is, however, important to note that while peered VPCs are reachable from a dataplane perspective as soon as the peering connection is created, since the Cloud Router exists in a specific VPC, “Custom Routes” must be configured in order for peer VPC routes to be advertised to the SDWAN Edge(s):
-<figure markdown>
-  ![Image title](/images/gcp/custom-route.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
+![image](https://github.com/user-attachments/assets/cc34d60e-1306-44cc-a25d-954264fe05cd)
 
 ## Single Region, Single VPC- Edge
 Despite the need for only a single workload VPC in this scenario, an edge deployment in GCP leverages 3 separate VPCs; one for a dedicated management interface (GE1, used only for VM console output and not for production traffic), one for internet/WAN connectivity (GE2), and one for LAN side/workload connectivity (GE3) as depicted below.
-<figure markdown>
-  ![Image title](/images/gcp/single-region-single-vpc.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
+![image](https://github.com/user-attachments/assets/99a56da6-8cca-4049-a303-13b10146175a)
 In this model workloads across all regions/subnets that are part of the workload VPC can be routed via the edge.  To establish overlay reachability, the LAN side subnet in which GE3 resides can be advertised as a connected route.  For all other subnets (either discrete subnets local to the region in the VPC or subnets in other regions) static routes and/or peering with a Google Cloud Router via the NCC hub are required.
 
 ## Single Region, Single VPC- NSD
@@ -44,32 +37,18 @@ NSD connectivity options for designs with a single workload VPC will leverage Go
 Both options below leverage the [general Cloud VPN configuration process](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn) with slightly different configurations.  On the VMware side, both will use the "Generic IKEv2 Router" NSD type. 
 
 For NSD via edge scenarios, leverage the "Generic IKEv2 Router" NSD type with the secondary VPN gateway option enabled to enable redundant VPN tunnels to the Google Cloud VPN gateways as shown.
-<figure markdown>
-  ![Image title](/images/gcp/nsd-single.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
-
+![image](https://github.com/user-attachments/assets/dd5280d5-5601-48c0-8e0e-8fe57534bfec)
 With NSD via gateway, maximum resiliency is realized by leveraging both primary and secondary Google Cloud VPN gateways, as well as selecting the "Redundant VeloCloud Cloud VPN" option in the NSD configuration to also build tunnels to GCP from a diverse VMware PoP, resulting in a total of four tunnels as shown.
-<figure markdown>
-  ![Image title](/images/gcp/nsdgw-single.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
-
+![image](https://github.com/user-attachments/assets/68d5461c-8e7e-4ad8-9f70-2ae156c0c9f4)
 
 ## Single Region, Multi-VPC
 When there is an additional need to connect to multiple VPCs within a given region, VPC peering can be configured with workload VPCs as described in the basic concepts section.
 
 For virtual VCEs running in GCP, the LAN interface will reside in a transit VPC (which in some cases may also contain other workloads) that will peer with multiple  workload VPCs (up to 25 as of this writing with quotas published [here](https://cloud.google.com/vpc/docs/quota#vpc-peering)).
-<figure markdown>
-  ![Image title](/images/gcp/multi-native-edge.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
+![image](https://github.com/user-attachments/assets/9a1ab646-cae6-4e8e-8637-b7c0210485e5)
 
 Similarly, in NSD based deployments the Google Cloud VPN gateway will be associated with a transit VPC peered with multiple workload VPCs.
-<figure markdown>
-  ![Image title](/images/gcp/multi-native-nsd.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
+![image](https://github.com/user-attachments/assets/5f99b56b-ec36-4093-8903-a87320e9e1f1)
 
 In either case, take care to read/understand the VPC peering portion of the basic concepts section above to see how routes can be both populated to VPC routing tables as well as learned by the Cloud Router.
 
@@ -99,23 +78,14 @@ NSD's via edge should leverage redundant VPN tunnels to GCP Cloud VPN gateways f
 For NSD via gateway, check the "Redundant VeloCloud Cloud VPN" option to enable maximum resiliency by creating dual redundant tunnels from both a primary and secondary cloud gateway, resulting in a total of 4 tunnels as depicted in the multiple private cloud/multiple VPC option below.
 
 For regions with a single private cloud, the GCP Cloud VPN can be configured directly in the VPC that houses the GCVE Private Cloud as pictured below.
-<figure markdown>
-  ![Image title](/images/gcp/single-gcve.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
+![image](https://github.com/user-attachments/assets/af25e493-9979-4942-b430-c8755f3c5e2d)
 In deployments with either multiple GCVE private clouds, or, a combination of GCVE along with native GCP workloads, GCP Cloud VPN can also be configured in a transit VPC and leverage [GCP private services access](https://cloud.google.com/vpc/docs/configure-private-services-access#creating-connection) for connectivity to the GCVE VPC(s) and VPC peering with associated native GCP workload VPCs.
-<figure markdown>
-  ![Image title](/images/gcp/multi-gcve.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
+![image](https://github.com/user-attachments/assets/132c7a11-e7a5-4ddc-a64b-b8656694acef)
 
 ### Virtual edges deployed to a customer owned VPC
 When additional throughput/tunnel scale is required beyond what can be supported via the NSD options, and/or when end to end DMPO is desired, virtual edges can be deployed into a transit VPC that connects via GCP private services access to the GCVE VPC(s).
 
 Similar to the Multi-VPC options previously noted, a single edge cluster can be deployed with LAN interfaces in a transit VPC to facilitate connectivity to the underlying GCVE VPCs.  The only difference in this model is that rather than traditional VPC peering, GCP private services access from the transit VPC is leveraged as depicted below.
-<figure markdown>
-  ![Image title](/images/gcp/multi-gcve-edge.png){ width="800" }
-  <figcaption></figcaption>
-</figure>
+![image](https://github.com/user-attachments/assets/cdd1d874-607f-4b72-a2a9-ab6927876a03)
 
 As with other designs, the use of NCC to peer edges with the Google Cloud Router and facilitate clustering for resiliency/additional throughput is recommended.
